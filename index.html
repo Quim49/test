@@ -4,7 +4,7 @@
     
 </head>
 <body>
-    <div id="text"> Test 1 </div>
+    <div id="text"> Test 2 </div>
     <div id="orderTotal">  </div>
     
     <button type="submit" class="style" onclick="getOrder()">Get Order</button>
@@ -40,7 +40,7 @@
                     document.getElementById('output3').innerHTML += propertiesOrder[i] + ": " + order[propertiesOrder[i]] + "<br>";
                 }
                 then()
-            });
+            })
         }
         
         function getAccount(then){
@@ -54,7 +54,7 @@
                     document.getElementById('output2').innerHTML += propertiesAccount[i] + ": " + account[propertiesAccount[i]] + "<br>";
                 }
                 then()
-            });
+            })
         }   
         
         function getItems(){
