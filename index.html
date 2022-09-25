@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+<body>
+    <div id="text"> Test 1 </div>
+    <div id="orderTotal">  </div>
+    
+    <button type="submit" class="style" onclick="getOrder()">Get Order</button>
+    <button type="submit" class="style" onclick="getAccount()">Get Account</button>
+    <button type="submit" class="style" onclick="getItems()">Get Items</button>
+    <br>
+    
+    <button type="submit" class="style" onclick="addExistingDiscount()">Add Existing Discount</button>
+    <button type="submit" class="style" onclick="addPercentageDiscount()">Add Percentage Discount</button>
+    <button type="submit" class="style" onclick="addAmountDiscount()">Add Amount Discount</button>
+    
+    <br>
+    <button type="submit" class="style" onclick="addContentExistingDiscount()">Add Content Existing Discount</button>
+    <button type="submit" class="style" onclick="addContentPercentageDiscount()">Add Content Percentage Discount</button>
+    <button type="submit" class="style" onclick="addContentAmountDiscount()">Add Content Amount Discount</button>
+    
+    <br>
+    <button type="submit" class="style" onclick="addProduct()">Add Product</button>
+    <button type="submit" class="style" onclick="addPayment()">Add Payment</button>
+    
+    <br>
+    <button type="submit" class="style" onclick="closeModal()">Close</button>
+    
+    <script>
+        function getOrder(then){   
+            RevoLoyalty.getOrder(function(jsonOrder) {
+                document.getElementById('output3').innerHTML += "<br><br>Comienzo del getOrder<br>";
+                var order = JSON.parse(jsonOrder);
+                document.getElementById('output3').innerHTML += "<br><br>Info del pedido:<br>";
+
+                var propertiesOrder = Object.getOwnPropertyNames(order);
+                for(var i = 0; i < propertiesOrder.length; i++) {
+                    document.getElementById('output3').innerHTML += propertiesOrder[i] + ": " + order[propertiesOrder[i]] + "<br>";
+                }
+                then()
+            });
+        }
+        
+        function getAccount(then){
+            RevoLoyalty.getAccount(function(jsonAccount) {
+                document.getElementById('output2').innerHTML += "<br><br>Comienzo del getAccount<br>";
+                var account = JSON.parse(jsonAccount);
+                document.getElementById('output2').innerHTML += "<br><br>Info del account: " + account['id'] +"<br>";
+            
+                var propertiesAccount = Object.getOwnPropertyNames(account);
+                for(var i = 0; i < propertiesAccount.length; i++) {
+                    document.getElementById('output2').innerHTML += propertiesAccount[i] + ": " + account[propertiesAccount[i]] + "<br>";
+                }
+                then()
+            });
+        }   
+        
+        function getItems(){
+            RevoLoyalty.getItems([1, 2, 3], function(json) {
+                var order = JSON.parse(json)
+                document.getElementById("text").innerHTML = json
+                document.getElementById("orderTotal").innerHTML = "Item baroce: "+ items["items"][0]["barcode"]
+            })
+        }
+        
+        //---------------------------------------------
+        
+        function addExistingDiscount(){
+            RevoLoyalty.addExistingDiscount(1, function(error) {
+                document.getElementById("text").innerHTML = error == null ? "Discount Added" : "Can't add discount: " + error
+            })
+        }
+        
+        function addPercentageDiscount(){
+            RevoLoyalty.addPercentageDiscount("Awesome day", 25, function() {
+                document.getElementById("text").innerHTML = "Percentage discount added"
+            })
+        }
+        
+        function addAmountDiscount(){
+            RevoLoyalty.addAmountDiscount("Firends day", 5, function() {
+                document.getElementById("text").innerHTML = "Amount discount added"
+            })
+        }
+        
+        //---------------------------------------------
+        
+        function addContentExistingDiscount(){
+            RevoLoyalty.addContentExistingDiscount(2, 1, function(error) {
+                document.getElementById("text").innerHTML = error == null ? "Content Discount Added" : "Can't add Content discount: " + error
+            })
+        }
+        
+        function addContentPercentageDiscount(){
+            RevoLoyalty.addContentPercentageDiscount(2, "Awesome day", 25, true, function() {
+                document.getElementById("text").innerHTML = "Content Percentage discount added"
+            })
+        }
+        
+        function addContentAmountDiscount(){
+            RevoLoyalty.addContentAmountDiscount(2, "Firends day", 5, true, function() {
+                document.getElementById("text").innerHTML = "Content Amount discount added"
+            })
+        }
+        
+        //---------------------------------------------
+        
+        function addProduct(){
+            RevoLoyalty.addProduct(12, 10, function(error) {
+                document.getElementById("text").innerHTML = error == null ? "Product Added" : error
+            })
+        }
+        
+        function addPayment(){
+            RevoLoyalty.addPayment(2, 2, function(error) {
+                document.getElementById("text").innerHTML = error == null ? "Payment Added" : error
+            })
+        }
+        
+        function closeModal(){
+            RevoLoyalty.close()
+        }
+        
+    </script>
+</body>
+</html
